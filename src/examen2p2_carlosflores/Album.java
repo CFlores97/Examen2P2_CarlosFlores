@@ -14,8 +14,6 @@ class Album extends Lanzamiento implements Serializable{
         super(titPub, fechaLanz, likes);
     }
 
-    
-
     public Album() {
         super();
     }

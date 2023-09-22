@@ -1,6 +1,8 @@
 package examen2p2_carlosflores;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable{
 
     private String username, password;
     private int edad; //(Nota, el usuario debe ser mayor de 12 años para poder ser un

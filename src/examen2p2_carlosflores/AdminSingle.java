@@ -6,13 +6,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 
-public class AdminLanzamiento {
-    private ArrayList<Lanzamiento> listaLanzamientos = new ArrayList();
+public class AdminSingle {
+    private ArrayList<Single> listaSingles = new ArrayList();
     private File archivo = null;
     
-    public AdminLanzamiento(String path) {
+    public AdminSingle(String path) {
         archivo = new File(path);
     }
     
@@ -24,22 +26,22 @@ public class AdminLanzamiento {
         this.archivo = archivo;
     }
     
-    public ArrayList<Lanzamiento> getListaPersonas() {
-        return listaLanzamientos;
+    public ArrayList<Single> getListaAlbumes() {
+        return listaSingles;
     }
     
-    public void setListaPersonas(ArrayList<Lanzamiento> listaPersonas) {
-        this.listaLanzamientos = listaPersonas;
+    public void setListaAlbumes(ArrayList<Single> listaPersonas) {
+        this.listaSingles = listaPersonas;
     }
     
     @Override
     public String toString() {
-        return "listaPersonas=" + listaLanzamientos;
+        return "listaPersonas=" + listaSingles;
     }
 
     //extra mutador
-    public void setPersona(Lanzamiento p) {
-        this.listaLanzamientos.add(p);
+    public void setSingle(Single p) {
+        this.listaSingles.add(p);
     }
 
     //metodos de administracion
@@ -49,10 +51,10 @@ public class AdminLanzamiento {
         try {
             fw = new FileWriter(archivo, false);
             bw = new BufferedWriter(fw);
-            for (Lanzamiento t : listaLanzamientos) {
-                /*w.write(t.getCodigo() + ";");
-                bw.write(t.getNombre() + ";");
-                bw.write(t.getedad() + ";");*/
+            for (Single t : listaSingles) {
+                bw.write(t.getTitPub()+ ";");
+                bw.write(t.getFechaLanz()+ ";");
+                bw.write(t.getLikes()+ ";");
             }
             bw.flush();
         } catch (Exception ex) {
@@ -63,7 +65,7 @@ public class AdminLanzamiento {
     
     public void cargarArchivo() {
         Scanner sc = null;
-        listaPersonas = new ArrayList();
+        ArrayList listaSingles = new ArrayList();
         
         if (archivo.exists()) {
             
@@ -72,7 +74,9 @@ public class AdminLanzamiento {
                 sc.useDelimiter(";");
                 
                 while (sc.hasNext()) {
-                    listaPersonas.add(new Persona(sc.nextInt(), sc.next(), sc.nextInt()));
+                    Single temp = new Single(sc.next(), sc.next(), sc.nextInt());
+                    
+                    listaSingles.add(temp);
                 }
                 
             } catch (Exception ex) {

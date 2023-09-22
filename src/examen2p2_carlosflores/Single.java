@@ -12,8 +12,6 @@ public class Single extends Lanzamiento implements Serializable{
         super(titPub, fechaLanz, likes);
     }
 
-    
-
     public Single() {
         super();
     }
