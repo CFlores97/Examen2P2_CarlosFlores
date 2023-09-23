@@ -81,7 +81,7 @@ public class Main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jl_canciones = new javax.swing.JList<>();
         btn_cargar = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btn_rep = new javax.swing.JButton();
         jd_lanzamientos = new javax.swing.JDialog();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -543,7 +543,12 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Reproducir");
+        btn_rep.setText("Reproducir");
+        btn_rep.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_repMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -570,7 +575,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                     .addContainerGap(400, Short.MAX_VALUE)
-                    .addComponent(jButton4)
+                    .addComponent(btn_rep)
                     .addGap(230, 230, 230)))
         );
         jPanel6Layout.setVerticalGroup(
@@ -592,7 +597,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                     .addContainerGap(298, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_rep, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(100, 100, 100)))
         );
 
@@ -1218,20 +1223,20 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_crtSingleMouseClicked
 
     private void btn_cargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cargarMouseClicked
-        
+
         File fsingles = null;
         File cSingles = null;
         File aSingles = null;
         FileReader fr = null;
         BufferedReader br = null;
-        
+
         Single temp = null;
-        
+
         try {
             fsingles = new File("./Singles.txt");
             fr = new FileReader(fsingles);
             br = new BufferedReader(fr);
-            
+
             int c = 0;
 
             if (fsingles.exists()) {
@@ -1245,16 +1250,14 @@ public class Main extends javax.swing.JFrame {
                     int cantlikes = Integer.parseInt(sing[2].trim());
 
                     temp = new Single(titPub, fechaLanz, cantlikes);
-                    
-                    DefaultListModel m = new DefaultListModel();
-                    
-                    m.add(c, temp);
-                    
-                    jl_canciones.setModel(m);
-                    
-                    c++;
 
-                    
+                    DefaultListModel m = new DefaultListModel();
+
+                    m.add(c, temp);
+
+                    jl_canciones.setModel(m);
+
+                    c++;
 
                 }
 
@@ -1265,6 +1268,19 @@ public class Main extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btn_cargarMouseClicked
+
+    private void btn_repMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_repMouseClicked
+
+        Thread H = new Hilo(jProgressBar1, rep, 2000);
+        if (jl_canciones.getSelectedIndex() >= 0) {
+            if (H.isAlive()) {
+                H.stop();
+            }
+            jProgressBar1.setValue(0);
+            jProgressBar1.setMaximum(60);
+
+        }
+    }//GEN-LAST:event_btn_repMouseClicked
 
     public void llenarArtistas() {
         //artistas.clear();
@@ -1286,6 +1302,8 @@ public class Main extends javax.swing.JFrame {
     Album al = null;
 
     DefaultMutableTreeNode selected;
+    //public Thread H = new Hilo();
+    public boolean rep = true;
 
     public static void main(String args[]) {
 
@@ -1324,12 +1342,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_jdCreate;
     private javax.swing.JButton btn_jdLogin;
     private javax.swing.JButton btn_login;
+    private javax.swing.JButton btn_rep;
     private javax.swing.JButton btn_upload;
     private javax.swing.JButton btn_verLanzamientos;
     private javax.swing.JComboBox<String> cb_tipo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
