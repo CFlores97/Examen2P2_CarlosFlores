@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -77,6 +78,10 @@ public class Main extends javax.swing.JFrame {
         jProgressBar1 = new javax.swing.JProgressBar();
         jLabel5 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jl_canciones = new javax.swing.JList<>();
+        btn_cargar = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jd_lanzamientos = new javax.swing.JDialog();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -527,36 +532,68 @@ public class Main extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Reproduccion");
 
-        jButton2.setText("Reproducir");
+        jButton2.setText("Pausar");
+
+        jScrollPane2.setViewportView(jl_canciones);
+
+        btn_cargar.setText("Cargar");
+        btn_cargar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cargarMouseClicked(evt);
+            }
+        });
+
+        jButton4.setText("Reproducir");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(293, 293, 293)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(232, 232, 232)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(249, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(314, 314, 314))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(91, 91, 91))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(123, 123, 123))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(108, 108, 108))))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(btn_cargar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                    .addContainerGap(400, Short.MAX_VALUE)
+                    .addComponent(jButton4)
+                    .addGap(230, 230, 230)))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(66, 66, 66)
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(btn_cargar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(57, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(70, 70, 70)
                 .addComponent(jLabel5)
-                .addGap(58, 58, 58)
+                .addGap(66, 66, 66)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(112, 112, 112)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addGap(105, 105, 105))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                    .addContainerGap(298, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(100, 100, 100)))
         );
 
         jTabbedPane1.addTab("Simulcion", jPanel6);
@@ -951,28 +988,6 @@ public class Main extends javax.swing.JFrame {
 
         try {
 
-            cSingles = new File("./Canciones.txt");
-            fr = new FileReader(cSingles);
-            br = new BufferedReader(fr);
-
-            if (cSingles.exists()) {
-                String linea = "";
-                while ((linea = br.readLine()) != null) {
-                    String[] song = linea.split(",");
-
-                    String titPub = song[0].trim();
-                    double tiempo = Double.parseDouble(song[1].trim());
-                    //int cantlikes = Integer.parseInt(song[2].trim());
-
-                    tempsong = new Cancion(titPub, tiempo);
-
-                    DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(temp);
-
-                    singles.add(tempNode);
-
-                }
-            }
-
             fsingles = new File("./Singles.txt");
             fr = new FileReader(fsingles);
             br = new BufferedReader(fr);
@@ -997,6 +1012,29 @@ public class Main extends javax.swing.JFrame {
                 }
 
             }
+
+            cSingles = new File("./Canciones.txt");
+            fr = new FileReader(cSingles);
+            br = new BufferedReader(fr);
+
+            if (cSingles.exists()) {
+                String linea = "";
+                while ((linea = br.readLine()) != null) {
+                    String[] song = linea.split(",");
+
+                    String titPub = song[0].trim();
+                    double tiempo = Double.parseDouble(song[1].trim());
+                    //int cantlikes = Integer.parseInt(song[2].trim());
+
+                    tempsong = new Cancion(titPub, tiempo);
+
+                    DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(temp);
+
+                    singles.add(tempNode);
+
+                }
+            }
+
             aSingles = new File("./Albums.txt");
             fr = new FileReader(fsingles);
             br = new BufferedReader(fr);
@@ -1179,6 +1217,55 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_crtSingleMouseClicked
 
+    private void btn_cargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cargarMouseClicked
+        
+        File fsingles = null;
+        File cSingles = null;
+        File aSingles = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+        Single temp = null;
+        
+        try {
+            fsingles = new File("./Singles.txt");
+            fr = new FileReader(fsingles);
+            br = new BufferedReader(fr);
+            
+            int c = 0;
+
+            if (fsingles.exists()) {
+
+                String linea = "";
+                while ((linea = br.readLine()) != null) {
+                    String[] sing = linea.split(",");
+
+                    String titPub = sing[0].trim();
+                    String fechaLanz = sing[1].trim();
+                    int cantlikes = Integer.parseInt(sing[2].trim());
+
+                    temp = new Single(titPub, fechaLanz, cantlikes);
+                    
+                    DefaultListModel m = new DefaultListModel();
+                    
+                    m.add(c, temp);
+                    
+                    jl_canciones.setModel(m);
+                    
+                    c++;
+
+                    
+
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }//GEN-LAST:event_btn_cargarMouseClicked
+
     public void llenarArtistas() {
         //artistas.clear();
         AdminArtista ap = new AdminArtista("./Artistas.karu");
@@ -1230,6 +1317,7 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg_init;
+    private javax.swing.JButton btn_cargar;
     private javax.swing.JButton btn_crearAlbum;
     private javax.swing.JButton btn_createUSer;
     private javax.swing.JButton btn_crtSingle;
@@ -1241,6 +1329,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cb_tipo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -1275,12 +1364,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JDialog jd_canciones;
     private javax.swing.JDialog jd_createLanz;
     private javax.swing.JDialog jd_createUser;
     private javax.swing.JDialog jd_lanzamientos;
     private javax.swing.JDialog jd_login;
+    private javax.swing.JList<String> jl_canciones;
     private javax.swing.JPanel jp_nombArti;
     private javax.swing.JTree jt_lanzArbol;
     private javax.swing.JMenuItem mi_addSong;
