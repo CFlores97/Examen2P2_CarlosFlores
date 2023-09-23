@@ -74,6 +74,10 @@ public class Main extends javax.swing.JFrame {
         jLabel38 = new javax.swing.JLabel();
         tf_likes = new javax.swing.JTextField();
         btn_crearAlbum = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jLabel5 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jd_lanzamientos = new javax.swing.JDialog();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -530,6 +534,46 @@ public class Main extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Crear Albumes", jPanel3);
+
+        jPanel6.setBackground(new java.awt.Color(0, 0, 0));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Reproduccion");
+
+        jButton2.setText("Reproducir");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(293, 293, 293)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(232, 232, 232)
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(249, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(314, 314, 314))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(jLabel5)
+                .addGap(58, 58, 58)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(112, 112, 112)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(120, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Simulcion", jPanel6);
 
         javax.swing.GroupLayout jd_createLanzLayout = new javax.swing.GroupLayout(jd_createLanz.getContentPane());
         jd_createLanz.getContentPane().setLayout(jd_createLanzLayout);
@@ -1089,36 +1133,40 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_mi_addSongActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        File lanzSongFile = null;
-        FileWriter fw = null;
-        BufferedWriter bw = null;
+        for (int i = 0; i < al.getCantCanciones(); i++) {
+            File lanzSongFile = null;
+            FileWriter fw = null;
+            BufferedWriter bw = null;
 
-        String tit = tf_nombreCanc.getText();
+            String tit = tf_nombreCanc.getText();
 
-        double time = Math.round(Double.parseDouble(tf_tiempo.getText()) / 60);
+            double time = Math.round(Double.parseDouble(tf_tiempo.getText()) / 60);
 
-        al.getCanciones().add(new Cancion(tit, time));
+            al.getCanciones().add(new Cancion(tit, time));
 
-        try {
+            try {
 
-            lanzSongFile = new File("./Canciones.txt");
-            fw = new FileWriter(lanzSongFile, true);
-            bw = new BufferedWriter(fw);
+                lanzSongFile = new File("./Canciones.txt");
+                fw = new FileWriter(lanzSongFile, true);
+                bw = new BufferedWriter(fw);
 
-            bw.write(tit + ", " + time + "\n");
-            bw.flush();
+                bw.write(tit + ", " + time + "\n");
+                bw.flush();
 
-            tf_nombreCanc.setText("");
+                tf_nombreCanc.setText("");
 
-            tf_tiempo.setText("");
+                tf_tiempo.setText("");
 
-            bw.close();
-            fw.close();
+                bw.close();
+                fw.close();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(jd_createUser, "Canciones guardado exitosamente");
         }
-        JOptionPane.showMessageDialog(jd_createUser, "Canciones guardado exitosamente");
+
+
     }//GEN-LAST:event_jButton1MouseClicked
 
     public void llenarArtistas() {
@@ -1182,6 +1230,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_verLanzamientos;
     private javax.swing.JComboBox<String> cb_tipo;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -1204,15 +1253,18 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JDialog jd_canciones;
