@@ -6,7 +6,7 @@ import java.util.Date;
 
 
 public class Single extends Lanzamiento implements Serializable{
-    private Cancion single = new Cancion();
+    private Cancion single;
 
     public Single(String titPub, String fechaLanz, int likes) {
         super(titPub, fechaLanz, likes);

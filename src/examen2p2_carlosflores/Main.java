@@ -1,11 +1,17 @@
 package examen2p2_carlosflores;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 
 public class Main extends javax.swing.JFrame {
 
@@ -58,7 +64,8 @@ public class Main extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jt_lanzArbol = new javax.swing.JTree();
+        btn_upload = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
@@ -339,11 +346,6 @@ public class Main extends javax.swing.JFrame {
                 btn_crtSingleMouseClicked(evt);
             }
         });
-        btn_crtSingle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_crtSingleActionPerformed(evt);
-            }
-        });
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tiempo:");
@@ -408,24 +410,37 @@ public class Main extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Lanzamientos");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(jTree1);
+        jt_lanzArbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane1.setViewportView(jt_lanzArbol);
+
+        btn_upload.setText("Cargar");
+        btn_upload.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_uploadMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(248, Short.MAX_VALUE)
+                .addContainerGap(243, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(216, 216, 216))
+                .addGap(221, 221, 221))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(313, 313, 313)
+                .addComponent(btn_upload, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addGap(18, 18, 18)
+                .addComponent(btn_upload, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -720,7 +735,7 @@ public class Main extends javax.swing.JFrame {
                     jd_createLanz.setVisible(true);
 
                 } else {
-
+                    JOptionPane.showMessageDialog(null, "Usuario no encontrado!");
                 }
             }
         }
@@ -729,6 +744,8 @@ public class Main extends javax.swing.JFrame {
             for (Cliente cliente : clientes) {
                 if (cliente.getUsername().equals(tf_userToVerify.getText()) && cliente.getPassword().equals(tf_passToVerify.getText())) {
 
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuario no encontrado!");
                 }
             }
         }
@@ -741,29 +758,27 @@ public class Main extends javax.swing.JFrame {
         File lanzSongFile = null;
         FileWriter fw = null;
         BufferedWriter bw = null;
-        
+
+        String tit = tf_titPub.getText();
+        String fecha = tf_fechaPub.getText();
+        int likes = Integer.parseInt(tf_canLikes.getText());
+        double time = Math.round(Double.parseDouble(tf_time.getText()) / 60);
+
         try {
-            String tit = tf_titPub.getText();
-            String fecha = tf_fechaPub.getText();
-            int likes = Integer.parseInt(tf_canLikes.getText());
-            double time = Math.round(Double.parseDouble(tf_time.getText()) / 60);
 
-            //Cancion cancion = new Cancion(tit, time);
+            lanzSingleFile = new File("./Singles.txt");
+            fw = new FileWriter(lanzSingleFile);
+            bw = new BufferedWriter(fw);
 
-            Single single = new Single(tit, fecha, likes);
-            //single.setSingle(cancion);
-            
-            lanzSingleFile = new File("./Singles.karu");
+            bw.write(tit + ", " + fecha + ", " + likes);
+            bw.flush();
+
+            lanzSongFile = new File("./Canciones.txt");
             fw = new FileWriter(lanzSongFile);
             bw = new BufferedWriter(fw);
-            
-            
 
-            bw.write(tit + ", " + fecha + ", " + likes + ";");
+            bw.write(tit + ", " + time);
             bw.flush();
-            
-            
-            
 
             JOptionPane.showMessageDialog(jd_createUser, "Single guardado exitosamente");
 
@@ -772,17 +787,101 @@ public class Main extends javax.swing.JFrame {
             tf_canLikes.setText("");
             tf_time.setText("");
 
+            bw.close();
+            fw.close();
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
+
+
     }//GEN-LAST:event_btn_crtSingleMouseClicked
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7MouseClicked
 
-    private void btn_crtSingleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crtSingleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_crtSingleActionPerformed
+    private void btn_uploadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_uploadMouseClicked
+        DefaultTreeModel m = (DefaultTreeModel) jt_lanzArbol.getModel();
+
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) m.getRoot();
+
+        DefaultMutableTreeNode singles = new DefaultMutableTreeNode("Singles");
+        DefaultMutableTreeNode albumes = new DefaultMutableTreeNode("Albumes");
+
+        root.add(singles);
+        root.add(albumes);
+
+        Single temp = new Single();
+        Cancion tempsong = new Cancion();
+        //Cancion tempSong = new Cancion();
+
+        ArrayList listaAlbumes = new ArrayList();
+
+        File fsingles = null;
+        File cSingles = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+
+            cSingles = new File("./Canciones.txt");
+            fr = new FileReader(cSingles);
+            br = new BufferedReader(fr);
+
+            if (cSingles.exists()) {
+                String linea = "";
+                while ((linea = br.readLine()) != null) {
+                    String[] song = linea.split(",");
+
+                    String titPub = song[0].trim();
+                    double tiempo = Double.parseDouble(song[1].trim());
+                    //int cantlikes = Integer.parseInt(song[2].trim());
+
+                    tempsong = new Cancion(titPub, tiempo);
+
+                    DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(temp);
+
+                    singles.add(tempNode);
+
+                }
+            }
+
+            fsingles = new File("./Singles.txt");
+            fr = new FileReader(fsingles);
+            br = new BufferedReader(fr);
+
+            if (fsingles.exists()) {
+
+                String linea = "";
+                while ((linea = br.readLine()) != null) {
+                    String[] sing = linea.split(",");
+
+                    String titPub = sing[0].trim();
+                    String fechaLanz = sing[1].trim();
+                    int cantlikes = Integer.parseInt(sing[2].trim());
+
+                    temp = new Single(titPub, fechaLanz, cantlikes);
+                    temp.setSingle(tempsong);
+
+                    DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(temp);
+
+                    singles.add(tempNode);
+
+                }
+
+            }
+
+            //sc.close();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "null");
+            ex.printStackTrace();
+        }
+
+        m.reload();
+
+
+    }//GEN-LAST:event_btn_uploadMouseClicked
 
     public void llenarArtistas() {
         //artistas.clear();
@@ -836,6 +935,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_jdCreate;
     private javax.swing.JButton btn_jdLogin;
     private javax.swing.JButton btn_login;
+    private javax.swing.JButton btn_upload;
     private javax.swing.JComboBox<String> cb_tipo;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel14;
@@ -867,11 +967,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTree jTree1;
     private javax.swing.JDialog jd_createLanz;
     private javax.swing.JDialog jd_createUser;
     private javax.swing.JDialog jd_login;
     private javax.swing.JPanel jp_nombArti;
+    private javax.swing.JTree jt_lanzArbol;
     private javax.swing.JTextField tf_artistName;
     private javax.swing.JTextField tf_canLikes;
     private javax.swing.JTextField tf_canLikes3;
