@@ -63,7 +63,6 @@ public class Main extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         tf_time = new javax.swing.JTextField();
         btn_verLanzamientos = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
@@ -438,19 +437,6 @@ public class Main extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Crear Singles", jPanel17);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 448, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Ver Lanzamientos", jPanel1);
 
         jPanel4.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -942,49 +928,6 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_loginMouseClicked
 
-    private void btn_crearAlbumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_crearAlbumMouseClicked
-        File lanzSingleFile = null;
-        File lanzSongFile = null;
-        FileWriter fw = null;
-        BufferedWriter bw = null;
-
-        String tit = tf_titPub.getText();
-        String nombreAl = tf_nombreAlbum.getText();
-        int cantSongAl = Integer.parseInt(tf_cantCanciones.getText());
-        int cantLikes = Integer.parseInt(tf_likes.getText());
-
-        al = new Album(tit, nombreAl, cantLikes);
-
-        try {
-
-            lanzSingleFile = new File("./Albums.txt");
-            fw = new FileWriter(lanzSingleFile);
-            bw = new BufferedWriter(fw);
-
-            bw.write(nombreAl + ", " + nombreAl + ", " + cantLikes + "\n");
-            bw.flush();
-
-            JOptionPane.showMessageDialog(jd_createUser, "Album guardado exitosamente");
-
-            tf_titPub.setText("");
-            tf_fechaPub.setText("");
-            tf_canLikes.setText("");
-            tf_time.setText("");
-
-            bw.close();
-            fw.close();
-
-            jd_createLanz.setVisible(false);
-            jd_canciones.pack();
-            jd_canciones.setModal(true);
-            jd_canciones.setLocationRelativeTo(this);
-            jd_canciones.setVisible(true);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_btn_crearAlbumMouseClicked
-
     private void btn_uploadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_uploadMouseClicked
         DefaultTreeModel m = (DefaultTreeModel) jt_lanzArbol.getModel();
 
@@ -1002,6 +945,7 @@ public class Main extends javax.swing.JFrame {
 
         File fsingles = null;
         File cSingles = null;
+        File aSingles = null;
         FileReader fr = null;
         BufferedReader br = null;
 
@@ -1053,6 +997,30 @@ public class Main extends javax.swing.JFrame {
                 }
 
             }
+            aSingles = new File("./Albums.txt");
+            fr = new FileReader(fsingles);
+            br = new BufferedReader(fr);
+
+            if (fsingles.exists()) {
+
+                String linea = "";
+                while ((linea = br.readLine()) != null) {
+                    String[] sing = linea.split(",");
+
+                    String titPub = sing[0].trim();
+                    String fechaLanz = sing[1].trim();
+                    int cantlikes = Integer.parseInt(sing[2].trim());
+
+                    temp = new Single(titPub, fechaLanz, cantlikes);
+                    temp.setSingle(tempsong);
+
+                    DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(temp);
+
+                    singles.add(tempNode);
+
+                }
+
+            }
 
             //sc.close();
         } catch (Exception ex) {
@@ -1063,57 +1031,6 @@ public class Main extends javax.swing.JFrame {
         m.reload();
 
     }//GEN-LAST:event_btn_uploadMouseClicked
-
-    private void btn_crtSingleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_crtSingleMouseClicked
-        File lanzSingleFile = null;
-        File lanzSongFile = null;
-        FileWriter fw = null;
-        BufferedWriter bw = null;
-
-        String tit = tf_titPub.getText();
-        String fecha = tf_fechaPub.getText();
-        int likes = Integer.parseInt(tf_canLikes.getText());
-        double time = Math.round(Double.parseDouble(tf_time.getText()) / 60);
-
-        try {
-
-            lanzSingleFile = new File("./Singles.txt");
-            fw = new FileWriter(lanzSingleFile, true);
-            bw = new BufferedWriter(fw);
-
-            bw.write(tit + ", " + fecha + ", " + likes + "\n");
-            bw.flush();
-
-            lanzSongFile = new File("./Canciones.txt");
-            fw = new FileWriter(lanzSongFile, true);
-            bw = new BufferedWriter(fw);
-
-            bw.write(tit + ", " + time + "\n");
-            bw.flush();
-
-            JOptionPane.showMessageDialog(jd_createUser, "Single guardado exitosamente");
-
-            tf_titPub.setText("");
-            tf_fechaPub.setText("");
-            tf_canLikes.setText("");
-            tf_time.setText("");
-
-            bw.close();
-            fw.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }//GEN-LAST:event_btn_crtSingleMouseClicked
-
-    private void btn_verLanzamientosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_verLanzamientosMouseClicked
-
-        jd_lanzamientos.pack();
-        jd_lanzamientos.setModal(true);
-        jd_lanzamientos.setLocationRelativeTo(this);
-        jd_lanzamientos.setVisible(true);
-    }//GEN-LAST:event_btn_verLanzamientosMouseClicked
 
     private void jt_lanzArbolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_lanzArbolMouseClicked
         if (evt.isMetaDown()) {
@@ -1168,6 +1085,99 @@ public class Main extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void btn_crearAlbumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_crearAlbumMouseClicked
+        File lanzSingleFile = null;
+        File lanzSongFile = null;
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+
+        String tit = tf_titPub.getText();
+        String nombreAl = tf_nombreAlbum.getText();
+        int cantSongAl = Integer.parseInt(tf_cantCanciones.getText());
+        int cantLikes = Integer.parseInt(tf_likes.getText());
+
+        al = new Album(tit, nombreAl, cantLikes);
+
+        try {
+
+            lanzSingleFile = new File("./Albums.txt");
+            fw = new FileWriter(lanzSingleFile, true);
+            bw = new BufferedWriter(fw);
+
+            bw.write(tit + ", " + nombreAl + ", " + cantLikes + "\n");
+            bw.flush();
+
+            JOptionPane.showMessageDialog(jd_createUser, "Album guardado exitosamente");
+
+            tf_titPub.setText("");
+            tf_fechaPub.setText("");
+            tf_canLikes.setText("");
+            tf_time.setText("");
+
+            bw.close();
+            fw.close();
+
+            jd_createLanz.setVisible(false);
+            jd_canciones.pack();
+            jd_canciones.setModal(true);
+            jd_canciones.setLocationRelativeTo(this);
+            jd_canciones.setVisible(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_crearAlbumMouseClicked
+
+    private void btn_verLanzamientosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_verLanzamientosMouseClicked
+
+        jd_lanzamientos.pack();
+        jd_lanzamientos.setModal(true);
+        jd_lanzamientos.setLocationRelativeTo(this);
+        jd_lanzamientos.setVisible(true);
+    }//GEN-LAST:event_btn_verLanzamientosMouseClicked
+
+    private void btn_crtSingleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_crtSingleMouseClicked
+        File lanzSingleFile = null;
+        File lanzSongFile = null;
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+
+        String tit = tf_titPub.getText();
+        String fecha = tf_fechaPub.getText();
+        int likes = Integer.parseInt(tf_canLikes.getText());
+        double time = Math.round(Double.parseDouble(tf_time.getText()) / 60);
+
+        try {
+
+            lanzSingleFile = new File("./Singles.txt");
+            fw = new FileWriter(lanzSingleFile, true);
+            bw = new BufferedWriter(fw);
+
+            bw.write(tit + ", " + fecha + ", " + likes + "\n");
+            bw.flush();
+
+            lanzSongFile = new File("./Canciones.txt");
+            fw = new FileWriter(lanzSongFile, true);
+            bw = new BufferedWriter(fw);
+
+            bw.write(tit + ", " + time + "\n");
+            bw.flush();
+
+            JOptionPane.showMessageDialog(jd_createUser, "Single guardado exitosamente");
+
+            tf_titPub.setText("");
+            tf_fechaPub.setText("");
+            tf_canLikes.setText("");
+            tf_time.setText("");
+
+            bw.close();
+            fw.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_crtSingleMouseClicked
 
     public void llenarArtistas() {
         //artistas.clear();
@@ -1254,7 +1264,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
