@@ -7,8 +7,9 @@ import java.util.Date;
 
 
 class Album extends Lanzamiento implements Serializable{
-    private ArrayList<Cancion> cancionesPert = new ArrayList<>();
+    private ArrayList<Cancion> canciones = new ArrayList<>();
     private ArrayList<Cancion> cancionesActual = new ArrayList<>();
+    private int cantCanciones;
 
     public Album(String titPub, String fechaLanz, int likes) {
         super(titPub, fechaLanz, likes);
@@ -18,12 +19,30 @@ class Album extends Lanzamiento implements Serializable{
         super();
     }
 
+    public ArrayList<Cancion> getCanciones() {
+        return canciones;
+    }
+
+    public void setCanciones(ArrayList<Cancion> canciones) {
+        this.canciones = canciones;
+    }
+
+    public int getCantCanciones() {
+        return cantCanciones;
+    }
+
+    public void setCantCanciones(int cantCanciones) {
+        this.cantCanciones = cantCanciones;
+    }
+    
+    
+
     public ArrayList<Cancion> getCancionesPert() {
-        return cancionesPert;
+        return canciones;
     }
 
     public void setCancionesPert(ArrayList<Cancion> cancionesPert) {
-        this.cancionesPert = cancionesPert;
+        this.canciones = cancionesPert;
     }
 
     public ArrayList<Cancion> getCancionesActual() {
@@ -36,7 +55,7 @@ class Album extends Lanzamiento implements Serializable{
 
     @Override
     public String toString() {
-        return "Album{" + "cancionesPert=" + cancionesPert + ", cancionesActual=" + cancionesActual + '}';
+        return "Album{" + "cancionesPert=" + canciones + ", cancionesActual=" + cancionesActual + '}';
     }
     
     
